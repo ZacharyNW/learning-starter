@@ -105,8 +105,8 @@ public class UsersController : ControllerBase
             UserName = userCreateDto.UserName,
         };
 
-        _userManager.CreateAsync(userToCreate, userCreateDto.Password);
-        _userManager.AddToRoleAsync(userToCreate, "Admin");
+        _userManager.CreateAsync(userToCreate, userCreateDto.Password).Wait();
+        _userManager.AddToRoleAsync(userToCreate, "Admin").Wait();
         _context.SaveChanges();
 
         var userGetDto = new UserGetDto

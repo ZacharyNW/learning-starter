@@ -151,7 +151,9 @@ public class Startup
         
         using var scope = app.ApplicationServices.CreateScope();
         var userManager = scope.ServiceProvider.GetService<UserManager<User>>();
+        var roleManager = scope.ServiceProvider.GetService<RoleManager<Role>>();
 
+        SeedRoles(dataContext, roleManager).Wait();
         SeedUsers(dataContext, userManager).Wait();
     }
 
@@ -169,6 +171,23 @@ public class Startup
             };
 
             await userManager.CreateAsync(seededUser, "Password");
+            await userManager.AddToRoleAsync(seededUser, "Admin");
+            await dataContext.SaveChangesAsync();
+        }
+    }
+    
+    private static async Task SeedRoles(DataContext dataContext, RoleManager<Role> roleManager)
+    {
+        var numRoles = dataContext.Roles.Count();
+
+        if (numRoles == 0)
+        {
+            var seededRole = new Role
+            {
+                Name = "Admin"
+            };
+
+            await roleManager.CreateAsync(seededRole);
             await dataContext.SaveChangesAsync();
         }
     }
