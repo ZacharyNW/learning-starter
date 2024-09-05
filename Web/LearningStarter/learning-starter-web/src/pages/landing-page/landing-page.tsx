@@ -1,4 +1,5 @@
-import { Container, createStyles, Text } from "@mantine/core";
+import { Container, Text } from "@mantine/core";
+import { createStyles } from "@mantine/emotion";
 
 //This is a basic Component, and since it is used inside of
 //'../../routes/config.tsx' line 31, that also makes it a page

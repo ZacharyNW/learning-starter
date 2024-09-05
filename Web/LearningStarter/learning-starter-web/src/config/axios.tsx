@@ -3,16 +3,18 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { ApiResponse } from "../constants/types";
 import { EnvVars } from "./env-vars";
 
+type ErrorHandlerKeys = keyof typeof errorHandlers
+
 const axiosInstance = axios.create({
   baseURL: EnvVars.apiBaseUrl,
 });
 
 const errorHandlers = {
-  "400": (response) => {
+  400: (response: AxiosResponse<unknown, any>) => {
     console.log("Bad Request. Check your validation for possible errors");
     return Promise.resolve(response);
   },
-  "401": () => {
+  401: () => {
     console.log("Unauthenticated. Make sure you are signed in.");
     return Promise.resolve({
       data: null,
@@ -25,19 +27,19 @@ const errorHandlers = {
       ],
     } as ApiResponse<any>);
   },
-  "403": () => {
+  403: () => {
     showNotification({
       message: "You are not authorized to perform this action",
       color: "red",
     });
   },
-  "404": (response) => {
+  404: (response: AxiosResponse<unknown, any>) => {
     console.log(
       "Endpoint Not Found. Check the route you are hitting on your front end matches the route on the backend."
     );
     return Promise.resolve(response);
   },
-  "500": (response) => {
+  500: (response: AxiosResponse<unknown, any>) => {
     console.log(
       "Server Error. Check your backend for null reference exceptions or similar errors."
     );
@@ -52,7 +54,8 @@ const errorHandlers = {
 export async function handleResponseError(error: AxiosError) {
   if (error.response) {
     const response: AxiosResponse = error.response;
-    const handler = errorHandlers[response.status];
+    const status = response.status as ErrorHandlerKeys
+    const handler = errorHandlers[status];
     if (handler) {
       const result = await handler(error.response);
       if (result) {

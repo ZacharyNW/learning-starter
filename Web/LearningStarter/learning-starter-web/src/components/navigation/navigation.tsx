@@ -3,10 +3,8 @@ import { routes } from "../../routes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import {
-  Header,
   Menu,
   Image,
-  createStyles,
   Container,
   Group,
   useMantineColorScheme,
@@ -14,6 +12,9 @@ import {
   Flex,
   Text,
   Avatar,
+  Title,
+  useMantineTheme,
+  parseThemeColor,
 } from "@mantine/core";
 import {
   NAVBAR_HEIGHT,
@@ -23,6 +24,7 @@ import { NavLink, NavLinkProps, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { UserDto } from "../../constants/types";
 import { useAuth } from "../../authentication/use-auth";
+import { createStyles } from "@mantine/emotion";
 
 type PrimaryNavigationProps = {
   user?: UserDto;
@@ -148,7 +150,7 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
   return (
-    <Header height={NAVBAR_HEIGHT_NUMBER}>
+    <Title order={4}>
       <Container px={20} fluid>
         <Flex direction="row" justify="space-between" align="center">
           <Group>
@@ -159,7 +161,7 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
                   width={60}
                   height={50}
                   radius="sm"
-                  withPlaceholder
+                  fallbackSrc="https://placehold.co/600x400?text=Placeholder"
                   src={logo}
                   alt="logo"
                 />
@@ -187,7 +189,7 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
           </Group>
         </Flex>
       </Container>
-    </Header>
+    </Title>
   );
 };
 
@@ -207,14 +209,8 @@ const useStyles = createStyles((theme) => {
     },
     linkActive: {
       "&, &:hover": {
-        backgroundColor: theme.fn.variant({
-          variant: "light",
-          color: theme.primaryColor,
-        }).background,
-        color: theme.fn.variant({
-          variant: "light",
-          color: theme.primaryColor,
-        }).color,
+        backgroundColor: theme.variantColorResolver({theme: theme, color: theme.primaryColor, variant: 'light'}).background,
+        color: theme.variantColorResolver({theme: theme, color: theme.primaryColor, variant: 'light'}).color,
       },
     },
     desktopNav: {

@@ -1,6 +1,6 @@
-import { Header } from "@mantine/core";
+import { Title } from "@mantine/core";
 
 //It's another page!
 export const NotFoundPage = () => {
-  return <Header height={60}>Page Not Found</Header>;
+  return <Title order={1}>Page Not Found</Title>;
 };

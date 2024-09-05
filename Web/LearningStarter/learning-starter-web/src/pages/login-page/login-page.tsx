@@ -6,14 +6,14 @@ import {
   Alert,
   Button,
   Container,
-  createStyles,
   Input,
   Text,
 } from "@mantine/core";
 import api from "../../config/axios";
 import { showNotification } from "@mantine/notifications";
+import { createStyles } from "@mantine/emotion";
 
-const baseUrl = process.env.REACT_APP_API_BASE_URL;
+const baseUrl = import.meta.env.REACT_APP_API_BASE_URL;
 
 type LoginRequest = {
   userName: string;
@@ -30,7 +30,8 @@ export const LoginPage = ({
 }: {
   fetchCurrentUser: () => void;
 }) => {
-  const { classes } = useStyles();
+  const styles = useStyles();
+  const {classes} = styles;
 
   const form = useForm<LoginRequest>({
     initialValues: {
@@ -69,7 +70,7 @@ export const LoginPage = ({
   }, []);
 
   return (
-    <PageWrapper>
+    <PageWrapper >
       <Container>
         <Container px={0}>
           {form.errors[""] && (

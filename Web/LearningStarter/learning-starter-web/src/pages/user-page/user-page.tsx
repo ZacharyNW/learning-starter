@@ -1,5 +1,6 @@
-import { Container, createStyles, Divider, Flex, Text } from "@mantine/core";
+import { Container, Divider, Flex, Text } from "@mantine/core";
 import { useUser } from "../../authentication/use-auth";
+import { createStyles } from "@mantine/emotion";
 
 export const UserPage = () => {
   const user = useUser();
@@ -7,7 +8,7 @@ export const UserPage = () => {
   return (
     <Container>
       <Container>
-        <Text size="lg" align="center">
+        <Text size="lg" ta="center">
           User Information
         </Text>
         <Container className={classes.textAlignLeft}>
