@@ -158,8 +158,8 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
               <NavLink to={routes.root}>
                 <Image
                   className={classes.logo}
-                  width={60}
-                  height={50}
+                  w={60}
+                  h={50}
                   radius="sm"
                   fallbackSrc="https://placehold.co/600x400?text=Placeholder"
                   src={logo}

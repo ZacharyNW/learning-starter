@@ -13,8 +13,6 @@ import api from "../../config/axios";
 import { showNotification } from "@mantine/notifications";
 import { createStyles } from "@mantine/emotion";
 
-const baseUrl = import.meta.env.REACT_APP_API_BASE_URL;
-
 type LoginRequest = {
   userName: string;
   password: string;
@@ -47,9 +45,6 @@ export const LoginPage = ({
   });
 
   const [, submitLogin] = useAsyncFn(async (values: LoginRequest) => {
-    if (baseUrl === undefined) {
-      return;
-    }
 
     const response = await api.post<LoginResponse>(`/api/authenticate`, values);
     if (response.data.hasErrors) {
